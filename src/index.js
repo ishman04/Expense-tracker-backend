@@ -18,6 +18,7 @@ app.post('/ping',(req,res)=>{
     return res.json({message: "pong"});
 })
 app.use('/signup',userRouter);
+app.use('/auth',authRouter)
 
 app.listen(ServerConfig.PORT,async ()=>{
     await connectdb();

@@ -1,4 +1,4 @@
-
+const bcrypt = require('bcrypt')
 class UserService{
     constructor(userRepository){
         this.userRepository = userRepository;
@@ -10,11 +10,11 @@ class UserService{
         if (user) {
             throw { reason: "User already exists", statusCode: 400 };
         }
-
+        const hashedPassword = await bcrypt.hash(userDetails.password, 10);
         const newUser = await this.userRepository.createUser({
             email: userDetails.email,
             name: userDetails.name,
-            password: userDetails.password
+            password: hashedPassword
         });
         if (!newUser) {
             throw { reason: "Failed to create user", statusCode: 500 };
