@@ -24,6 +24,29 @@ async function newUser(req,res){
     }
 }
 
+async function getDetails(req,res){
+    const userService = new UserService(new UserRepository());
+    try {
+        const user = await userService.getUserDetails(req.params.id);
+        return res.status(200).json({
+            message: "Successfully retrieved the user details",
+            data: user,
+            error: {},
+            success: true
+            });
+            } catch (error) {
+                console.log(error)
+                return res.status(error.statusCode || 500).json({
+                    message: "Failed to retrieve the user details",
+                    data: {},
+                    error: error.reason || error.message,
+                    success: false
+                });
+            }
+                    
+}
+
 module.exports = {
-    newUser
+    newUser,
+    getDetails
 }

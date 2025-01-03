@@ -2,8 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/serverConfig');
-const UnauthorizedLoginError = require('../utils/unautorizedLoginError');
-
+const UnauthorizedLoginError = require('../utils/unautorizedLoginError')
 async function isLoggedIn(req, res, next) {
     const token = req.cookies.authToken; // Accessing the cookie correctly
     if (!token) {
@@ -17,6 +16,7 @@ async function isLoggedIn(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, JWT_SECRET); //to check if token found is not tampered and is valid
+        console.log(decoded);  // Check if the decoded token has the role
 
         if (!decoded) {
             throw new UnauthorizedLoginError;
@@ -73,7 +73,48 @@ async function isAdmin(req,res,next){
     }
 }
 
+async function isDriver(req,res,next){
+    const loggedInUser = req.user;
+    console.log(loggedInUser)
+    if(loggedInUser.role === 'driver'){
+        next();
+    }
+    else{
+        return res.status(401).json({
+            message: "You are not authorized to perform this action",
+            error:{
+                statusCode: 401,
+                reason:"Unauthorized user"
+            },
+            data:{},
+            success: false
+        })
+    }
+}
+
+async function isUser(req,res,next){
+    const loggedInUser = req.user;
+    console.log(loggedInUser)
+    if(loggedInUser.role == 'user'){
+        next();
+    }
+    else{
+        return res.status(401).json({
+            message: "You are not authorized to perform this action",
+            error:{
+                statusCode: 401,
+                reason:"Unauthorized user"
+            },
+            data:{},
+            success: false
+        })
+    }
+}
+
+
 module.exports = {
     isLoggedIn,
-    isAdmin 
+    isAdmin,
+    isDriver,
+    isUser
 };

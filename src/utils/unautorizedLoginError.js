@@ -5,4 +5,4 @@ class UnauthorizedLoginError extends AppError{
         super(`User not authorized properly`,401);
     }
 }
-module.exports = UnauthorizedLoginError
+module.exports = UnauthorizedLoginError;

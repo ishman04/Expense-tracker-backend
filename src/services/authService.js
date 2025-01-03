@@ -20,7 +20,7 @@ class AuthService{
 
         }
 
-        const token = jwt.sign({email: user.email, _id: user._id}, JWT_SECRET, {   //payload,secretkey,options
+        const token = jwt.sign({email: user.email, _id: user._id, role: user.role}, JWT_SECRET, {   //payload,secretkey,options
             expiresIn: JWT_EXPIRY
         })
         return {token, userData:{
