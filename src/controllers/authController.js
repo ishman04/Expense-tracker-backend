@@ -1,6 +1,20 @@
 const UserRepository = require("../repositories/userRepository");
 const AuthService = require("../services/authService");
 
+async function logout(req,res){
+    console.log("Cookie from frontend", req.cookies)
+    res.cookie("authToken","",{
+        httpOnly: true,
+        secure: false,
+        maxAge: 7*24*60*60*1000
+    })
+    return res.status(200).json({
+        success: true,
+        message: "Logout successfull",
+        error: {},
+        data:{}
+    })
+}
 async function logUserIn(req,res){
     const authService = new AuthService(new UserRepository());
     try {
@@ -29,5 +43,6 @@ async function logUserIn(req,res){
 }
 
 module.exports = {
-    logUserIn
+    logUserIn,
+    logout
 }

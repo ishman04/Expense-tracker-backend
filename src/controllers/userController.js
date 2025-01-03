@@ -2,14 +2,6 @@ const UserRepository = require("../repositories/userRepository");
 const UserService = require("../services/userService");
 
 async function newUser(req,res){
-    const { name, email, password } = req.body;
-
-    if (!name || !email || !password) {
-        return res.status(400).json({
-            message: "All fields are required: name, email, and password",
-            success: false,
-        });
-    }
     const userService = new UserService(new UserRepository());
 
     try {

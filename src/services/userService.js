@@ -10,7 +10,9 @@ class UserService{
         if (user) {
             throw { reason: "User already exists", statusCode: 400 };
         }
+        
         const hashedPassword = await bcrypt.hash(userDetails.password, 10);
+
         const newUser = await this.userRepository.createUser({
             email: userDetails.email,
             name: userDetails.name,
